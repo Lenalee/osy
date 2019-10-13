@@ -19,3 +19,4 @@ internal__func()
 int some_function();
 int this_is1_some_2_function ( void );
 /* function_call(arg); */
+void func_2(){int tmp_var; function_call(0);}
