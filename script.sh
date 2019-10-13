@@ -1,7 +1,8 @@
 #!/bin/bash
 
 function print_help () {
-	echo "Usage: $0 [-h] -i prefix -r -f regex"
+	echo "Usage: $0 [-h] -i prefix -r -f filter_regex"
+	exit 1
 }
 
 function replace_include () {
@@ -30,7 +31,6 @@ do
 	case "$opt" in
 	h)
 		print_help
-		exit 0
 		;;
 	i)
 		PREFIX=$(echo "$OPTARG" | sed 's|\\|\\\\|g')
@@ -43,7 +43,6 @@ do
 		;;
 	*)
 		print_help
-		exit 0
 		;;
 	esac
 done
@@ -53,7 +52,7 @@ shift $((OPTIND-1))
 if [ -z "$1" ]
 then
 	TMP=$(mktemp)
-	cat /dev/stdin > $TMP
+	cat > $TMP
 	FILES="$TMP"
 else
 	FILES="$@"
