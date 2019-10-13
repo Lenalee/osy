@@ -13,7 +13,7 @@ function do_replace () {
 
 function do_camel () { 
 	sed -r -e ':loop
-/^[[:lower:][:digit:]]+[[:lower:][:digit:]_]+\(/{s/(^|_)([a-z0-9])/\U\2/g
+/\b[[:lower:][:digit:]]+(_[[:lower:][:digit:]]+)*\(/{s/(^|_)([a-z0-9])/\U\2/g
 b loop}'
 }
 
