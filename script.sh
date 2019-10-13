@@ -14,11 +14,11 @@ function replace_include () {
 function replace_camel () {
 	for file in $@
 	do
-		while true
+		names=$(grep -Eo '\b[[:lower:][:digit:]]+(_[[:lower:][:digit:]]+)*[[:space:]]*\(' "$file" | uniq | grep -E "$REGEX")
+		for name in $names
 		do
-			name=$(grep -m 1 -Eo '\b[[:lower:][:digit:]]+(_[[:lower:][:digit:]]+)*[[:space:]]*\(' "$file")
-			[ -z "$name" ] && break
 			subst=$(echo "$name" | sed -r 's/(^|_)([a-z0-9])/\U\2/g')
+			1>&2 echo "replacing name:$name to subst:$subst in file:$file"
 			eval "sed -i 's/$name/$subst/g' \"$file\""
 		done
 	done
@@ -58,6 +58,8 @@ then
 else
 	FILES="$@"
 fi
+
+[ -z "$REGEX" ] && REGEX=.*
 
 [ ! -z "$PREFIX" ] && replace_include "$FILES"
 [ ! -z "$CAMEL" ] && replace_camel "$FILES"
